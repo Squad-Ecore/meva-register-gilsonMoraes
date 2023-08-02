@@ -1,5 +1,4 @@
 # PROJETO DO GILSON MORAES
-# DATA DE NASCIMENTO: 05/07/1995
 
 # scaffold java
 
