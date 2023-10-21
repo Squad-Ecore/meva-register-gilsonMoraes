@@ -20,42 +20,44 @@ public class UserService {
         this.familyRepository = familyRepository;
     }
 
+    private Family createFamily(FamilyDto familyDto, User user) {
+        Family newFamily = new Family();
+        newFamily.setDescription(familyDto.getDescription());
+        newFamily = familyRepository.save(newFamily);
+        user.setFamily(newFamily);
+        return newFamily;
+    }
+
     public User register(UserDto userDto) {
         User user = userDto.converter();
-
         FamilyDto familyDto = userDto.getFamilyDto();
-
         if (familyDto.getIdFamily() == 0) {
-            Family newFamily = new Family();
-            newFamily.setDescription(familyDto.getDescription());
-
-            // Salve a família no banco de dados para gerar um ID
-            newFamily = familyRepository.save(newFamily);
-
-            // Associe o usuário à família criada
-            user.setFamily(newFamily);
-
+            createFamily(familyDto, user);
         } else {
-            // Tente encontrar a família no banco de dados pelo idFamily
             Family existingFamily = familyRepository.findById(familyDto.getIdFamily()).orElse(null);
-
             if (existingFamily != null) {
-                // Se a família existir, associe o usuário a ela
                 user.setFamily(existingFamily);
             } else {
-                // Se a família não existe, crie uma nova família e associe o usuário a ela
-                Family newFamily = new Family();
-                newFamily.setDescription(familyDto.getDescription());
-
-                // Salve a nova família no banco de dados
-                newFamily = familyRepository.save(newFamily);
-
-                // Associe o usuário à nova família
-                user.setFamily(newFamily);
+                createFamily(familyDto, user);
             }
         }
-        // Salve o usuário no banco de dados
         return userRepository.save(user);
     }
+
+    public User updateUser(String cpf, UserDto updatedUserDto) {
+        User existingUser = userRepository.findById(cpf).orElse(null);
+        if (existingUser != null) {
+            existingUser.setName(updatedUserDto.getName());
+            existingUser.setGenre(updatedUserDto.getGenre());
+            existingUser.setBirth(updatedUserDto.getBirth());
+            existingUser.setState(updatedUserDto.getState());
+            existingUser.setCity(updatedUserDto.getCity());
+            return userRepository.save(existingUser);
+        } else {
+            // O usuário não foi encontrado, você pode lidar com isso de acordo com sua lógica de negócios
+            return null;
+        }
+    }
 }
+
 

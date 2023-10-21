@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import java.util.Date;
 
 @Getter
@@ -13,6 +15,7 @@ import java.util.Date;
 public class UserDto {
 
     @NotEmpty
+    @Pattern(regexp = "\\d{11}")
     private String cpf;
 
     @NotEmpty
