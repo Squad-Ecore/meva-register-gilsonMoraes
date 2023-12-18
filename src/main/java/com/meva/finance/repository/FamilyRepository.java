@@ -5,6 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 //isso permite que eu realize operações de CRUD utilizando metodos fornecidos pelo JPARepository
 public interface FamilyRepository extends JpaRepository<Family, Long> {
-    Family findByDescription(String familyDescription);
-
 }

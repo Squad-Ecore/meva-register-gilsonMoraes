@@ -14,11 +14,11 @@ import java.util.Date;
 @Setter
 public class UserDto {
 
-    @NotEmpty
+    @NotNull @NotEmpty
     @Pattern(regexp = "\\d{11}")
     private String cpf;
 
-    @NotEmpty
+    @NotNull @NotEmpty
     private String name;
 
     private String genre;
@@ -26,15 +26,15 @@ public class UserDto {
     @NotNull
     private Date birth;
 
-    @NotEmpty
+    @NotNull @NotEmpty
     private String state;
 
-    @NotEmpty
+    @NotNull @NotEmpty
     private String city;
 
     private FamilyDto familyDto;
 
-    public User converter() {
+    public User converterUser() {
         User user = new User();
         user.setCpf(cpf);
         user.setName(name);
@@ -42,8 +42,6 @@ public class UserDto {
         user.setBirth(birth);
         user.setState(state);
         user.setCity(city);
-        Family family = familyDto.converter();
-        user.setFamily(family);
         //Chamar converter familyDto para setar na family que está dentro de user -- OK
         return user;
     }

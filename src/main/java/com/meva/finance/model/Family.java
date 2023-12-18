@@ -3,6 +3,7 @@ package com.meva.finance.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Family {
     @Column(name = "id_family")
     private Long idFamily;
 
+    @NotNull @NotEmpty
     private String description;
 
 }

@@ -1,6 +1,8 @@
 package com.meva.finance.api;
 
 import com.meva.finance.dto.UserDto;
+import com.meva.finance.exception.CpfExistingException;
+import com.meva.finance.exception.IdFamilyNotFoundException;
 import com.meva.finance.model.User;
 import com.meva.finance.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +21,8 @@ public class UserController {
 
     @PostMapping("/register")
     @Transactional
-    public User register(@RequestBody @Valid UserDto userDto) {
-        return userService.register(userDto);
-    }
-
-    @PutMapping("/update/{cpf}")
-    public User updateUserByCpf(@PathVariable String cpf, @RequestBody UserDto updatedUserDto) {
-        User updatedUser = userService.updateUser(cpf, updatedUserDto);
-        if (updatedUser != null) {
-        }
-        return updatedUser;
+    public User register(@RequestBody @Valid UserDto userDto)
+            throws CpfExistingException, IdFamilyNotFoundException {
+        return userService.saveUser(userDto);
     }
 }
