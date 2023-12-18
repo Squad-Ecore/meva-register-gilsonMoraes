@@ -3,6 +3,7 @@ package com.meva.finance.service;
 import com.meva.finance.dto.UserDto;
 import com.meva.finance.exception.CpfExistingException;
 import com.meva.finance.exception.IdFamilyNotFoundException;
+import com.meva.finance.model.Family;
 import com.meva.finance.model.User;
 import com.meva.finance.repository.FamilyRepository;
 import com.meva.finance.repository.UserRepository;
@@ -21,23 +22,20 @@ public class UserService {
     }
 
     public User saveUser(UserDto userDto) {
-        validateFamily(userDto);
         User user = userDto.converterUser();
-        user.setFamily(userDto.getFamilyDto().converterFamily());
-        familyRepository.save(user.getFamily());
+        user.setFamily(validateFamily(userDto));
         return userRepository.save(user);
-        //converter userDto para user OK
-        //salvar familia OK
     }
 
-    //Criar método de validação
-
-    public void validateFamily(UserDto userDto) throws CpfExistingException, IdFamilyNotFoundException {
+    private Family validateFamily(UserDto userDto) throws CpfExistingException, IdFamilyNotFoundException {
         if (userRepository.findByCpf(userDto.getCpf()).isPresent()) {
             throw new CpfExistingException(userDto.getCpf());
         }
-        if (familyRepository.findById(userDto.getFamilyDto().getIdFamily()).isPresent()) {
-            throw new IdFamilyNotFoundException(userDto.getFamilyDto().getIdFamily());
+        if (familyRepository.findById(userDto.getFamilyDto().getIdFamily()).isPresent() ||
+                (userDto.getFamilyDto().getIdFamily() == null || userDto.getFamilyDto().getIdFamily() == 0)) {
+            Family family = familyRepository.save(userDto.getFamilyDto().converterFamily());
+            return family;
         }
+        throw new IdFamilyNotFoundException(userDto.getFamilyDto().getIdFamily());
     }
 }
