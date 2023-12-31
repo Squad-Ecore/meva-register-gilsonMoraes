@@ -25,4 +25,11 @@ public class UserController {
             throws CpfExistingException, IdFamilyNotFoundException {
         return userService.saveUser(userDto);
     }
+
+    @PutMapping("/update/{userId}")
+    @Transactional
+    public User updateUser(@PathVariable Long userId, @RequestBody UserDto updateUserDto)
+            throws CpfExistingException, IdFamilyNotFoundException {
+        return userService.updateUser(userId, updateUserDto);
+    }
 }
