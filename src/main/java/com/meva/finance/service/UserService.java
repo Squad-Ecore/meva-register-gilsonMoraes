@@ -11,6 +11,7 @@ import com.meva.finance.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.function.Consumer;
 
 @Service
 public class UserService {
@@ -47,33 +48,27 @@ public class UserService {
         User existingUser = userRepository.findById(String.valueOf(userId))
                 .orElseThrow(() -> new CpfExistingException(updateUserDto.getCpf()));
 
-        if (!familyRepository.findById(updateUserDto.getFamilyDto().getIdFamily()).isPresent()){
+        if (!familyRepository.findById(updateUserDto.getFamilyDto().getIdFamily()).isPresent()) {
             throw new IdFamilyNotFoundException(updateUserDto.getFamilyDto().getIdFamily());
         }
 
-        updateFields(existingUser, updateUserDto);
+        updateField(existingUser, updateUserDto.getName(), User::setName);
+        updateField(existingUser, updateUserDto.getGenre(), User::setGenre);
+        updateField(existingUser, updateUserDto.getState(), User::setState);
+        updateField(existingUser, updateUserDto.getCity(), s -> User::setCity);
+
+        updateBirth(existingUser, updateUserDto.getBirth());
 
         return userRepository.save(existingUser);
     }
 
-    private void updateFields(User existingUser, UserUpdateDto updateUserDto) {
-        if (updateUserDto.getName() != null && !updateUserDto.getName().isEmpty()) {
-            existingUser.setName(updateUserDto.getName().toUpperCase());
+    private void updateField(User existingUser, String value, Consumer<String> setter) {
+        if (value != null && !value.isEmpty()) {
+            setter.accept(value.toUpperCase());
         }
+    }
 
-        if (updateUserDto.getGenre() != null && !updateUserDto.getGenre().isEmpty()) {
-            existingUser.setGenre(updateUserDto.getGenre().toUpperCase());
-        }
-
-        if (updateUserDto.getState() != null && !updateUserDto.getState().isEmpty()) {
-            existingUser.setState(updateUserDto.getState().toUpperCase());
-        }
-
-        if (updateUserDto.getCity() != null && !updateUserDto.getCity().isEmpty()) {
-            existingUser.setCity(updateUserDto.getCity().toUpperCase());
-        }
-
-        Date birth = updateUserDto.getBirth();
+    private void updateBirth(User existingUser, Date birth) {
         if (birth != null) {
             existingUser.setBirth(birth);
         }
