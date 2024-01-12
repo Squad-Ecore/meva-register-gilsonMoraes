@@ -1,15 +1,13 @@
 package com.meva.finance.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
+@Data
+@NoArgsConstructor
 public class UserUpdateDto {
 
     @JsonIgnore
@@ -27,7 +25,3 @@ public class UserUpdateDto {
 
     private FamilyDto familyDto;
 }
-
-
-
-

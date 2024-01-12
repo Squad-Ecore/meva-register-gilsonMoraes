@@ -3,6 +3,7 @@ package com.meva.finance.service;
 import com.meva.finance.dto.UserDto;
 import com.meva.finance.dto.UserUpdateDto;
 import com.meva.finance.exception.CpfExistingException;
+import com.meva.finance.exception.CpfNotFoundException;
 import com.meva.finance.exception.IdFamilyNotFoundException;
 import com.meva.finance.model.Family;
 import com.meva.finance.model.User;
@@ -11,7 +12,7 @@ import com.meva.finance.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.function.Consumer;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -43,34 +44,53 @@ public class UserService {
         throw new IdFamilyNotFoundException(userDto.getFamilyDto().getIdFamily());
     }
 
-    public User updateUser(Long userId, UserUpdateDto updateUserDto)
-            throws CpfExistingException, IdFamilyNotFoundException {
-        User existingUser = userRepository.findById(String.valueOf(userId))
-                .orElseThrow(() -> new CpfExistingException(updateUserDto.getCpf()));
+    public User updateUser(String cpf, UserUpdateDto updateUserDto)
+            throws CpfNotFoundException, IdFamilyNotFoundException {
+        User existingUser = userRepository.findById(cpf)
+                .orElseThrow(() -> new CpfNotFoundException(cpf));
 
         if (!familyRepository.findById(updateUserDto.getFamilyDto().getIdFamily()).isPresent()) {
             throw new IdFamilyNotFoundException(updateUserDto.getFamilyDto().getIdFamily());
-        }
+        } // ALTERAR CONDIÇÃO DA FAMILIA
 
-        updateField(existingUser, updateUserDto.getName(), User::setName);
-        updateField(existingUser, updateUserDto.getGenre(), User::setGenre);
-        updateField(existingUser, updateUserDto.getState(), User::setState);
-        updateField(existingUser, updateUserDto.getCity(), s -> User::setCity);
-
-        updateBirth(existingUser, updateUserDto.getBirth());
+        updateFields(existingUser, updateUserDto);
 
         return userRepository.save(existingUser);
     }
 
-    private void updateField(User existingUser, String value, Consumer<String> setter) {
-        if (value != null && !value.isEmpty()) {
-            setter.accept(value.toUpperCase());
+    private void updateFields(User existingUser, UserUpdateDto updateUserDto) {
+        existingUser.setName(getUpdatedValue(existingUser.getName(), updateUserDto.getName()));
+        existingUser.setGenre(getUpdatedValue(existingUser.getGenre(), updateUserDto.getGenre()));
+        existingUser.setState(getUpdatedValue(existingUser.getState(), updateUserDto.getState()));
+        existingUser.setCity(getUpdatedValue(existingUser.getCity(), updateUserDto.getCity()));
+
+        Date birth = updateUserDto.getBirth();
+        if (birth != null) {
+            existingUser.setBirth(birth);
         }
     }
 
-    private void updateBirth(User existingUser, Date birth) {
-        if (birth != null) {
-            existingUser.setBirth(birth);
+    private String getUpdatedValue(String currentValue, String newValue) {
+        return (newValue != null && !newValue.isEmpty()) ? newValue : currentValue;
+    }
+
+    public User selectUserById(Long cpf) throws CpfNotFoundException {
+        Optional<User> userOptional = userRepository.findById(String.valueOf(cpf));
+
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        } else {
+            throw new CpfNotFoundException(String.valueOf(cpf));
+        }
+    }
+
+    public void deleteUser(Long cpf) throws CpfNotFoundException {
+        Optional<User> userOptional = userRepository.findById(String.valueOf(cpf));
+
+        if (userOptional.isPresent()) {
+            userRepository.delete(userOptional.get());
+        } else {
+            throw new CpfNotFoundException(String.valueOf(cpf));
         }
     }
 }

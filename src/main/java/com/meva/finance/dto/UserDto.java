@@ -1,18 +1,14 @@
 package com.meva.finance.dto;
 
 import com.meva.finance.model.User;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.BeanUtils;
+import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.lang.reflect.Field;
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 public class UserDto {
 
     @NotNull
@@ -49,6 +45,7 @@ public class UserDto {
         user.setState(state);
         user.setCity(city);
         //Chamar converter familyDto para setar na family que está dentro de user -- OK
+        //aprender sobre BUILDER e refatorar
         return user;
     }
 }
