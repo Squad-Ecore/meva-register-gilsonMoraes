@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
     @GetMapping("/teste")
-    private String teste() throws Exception {
+    public String teste() throws Exception {
         log.info("OK");
         return "ESTÁ TUDO FUNCIONANDO";
 

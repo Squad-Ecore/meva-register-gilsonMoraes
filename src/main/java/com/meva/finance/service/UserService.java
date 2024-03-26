@@ -51,7 +51,7 @@ public class UserService {
 
         if (!familyRepository.findById(updateUserDto.getFamilyDto().getIdFamily()).isPresent()) {
             throw new IdFamilyNotFoundException(updateUserDto.getFamilyDto().getIdFamily());
-        } // ALTERAR CONDIÇÃO DA FAMILIA
+        }
 
         updateFields(existingUser, updateUserDto);
 
