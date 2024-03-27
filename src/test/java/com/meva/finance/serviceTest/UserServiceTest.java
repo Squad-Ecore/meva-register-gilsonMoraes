@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
     @Mock
@@ -59,7 +59,7 @@ public class UserServiceTest {
         userTest.setName("Gilson");
         when(userRepository.save(any(User.class))).thenReturn(userTest);
 
-        // Dados de entrada para o método saveUser
+        // Dados de entrada para o método saveUsers
         UserDto userDto = new UserDto();
         userDto.setCpf("12345678900"); // CPF que não existe no banco de dados
         userDto.setName("Gilson");
