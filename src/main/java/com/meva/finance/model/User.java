@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -18,7 +18,7 @@ public class User {
     private String cpf;
     private String name;
     private String genre;
-    private Date birth;
+    private LocalDate birth;
     private String state;
     private String city;
     @ManyToOne

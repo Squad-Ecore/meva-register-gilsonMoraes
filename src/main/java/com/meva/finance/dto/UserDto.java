@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class UserDto {
@@ -24,7 +24,7 @@ public class UserDto {
     private String genre;
 
     @NotNull
-    private Date birth;
+    private LocalDate birth;
 
     @NotNull
     @NotEmpty
@@ -48,6 +48,7 @@ public class UserDto {
         //aprender sobre BUILDER e refatorar
         return user;
     }
+
 }
 
 

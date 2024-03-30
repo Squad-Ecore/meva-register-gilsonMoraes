@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 <span class="nc bnc" id="L10" title="All 62 branches missed.">@Data</span>
 @Entity
@@ -18,7 +18,7 @@ public class User {
 <span class="nc" id="L18">    private String cpf;</span>
 <span class="nc" id="L19">    private String name;</span>
 <span class="nc" id="L20">    private String genre;</span>
-<span class="nc" id="L21">    private Date birth;</span>
+<span class="nc" id="L21">    private LocalDate birth;</span>
 <span class="nc" id="L22">    private String state;</span>
 <span class="nc" id="L23">    private String city;</span>
     @ManyToOne

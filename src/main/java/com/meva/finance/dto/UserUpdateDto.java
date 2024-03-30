@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class UserUpdateDto {
 
     private String genre;
 
-    private Date birth;
+    private LocalDate birth;
 
     private String state;
 

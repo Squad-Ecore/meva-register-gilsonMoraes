@@ -11,6 +11,7 @@ import com.meva.finance.repository.FamilyRepository;
 import com.meva.finance.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -64,7 +65,7 @@ public class UserService {
         existingUser.setState(getUpdatedValue(existingUser.getState(), updateUserDto.getState()));
         existingUser.setCity(getUpdatedValue(existingUser.getCity(), updateUserDto.getCity()));
 
-        Date birth = updateUserDto.getBirth();
+        LocalDate birth = updateUserDto.getBirth();
         if (birth != null) {
             existingUser.setBirth(birth);
         }
