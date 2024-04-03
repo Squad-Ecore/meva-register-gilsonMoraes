@@ -1,5 +1,5 @@
 
-†
-java:S6068G"CRemove this useless "eq(...)" invocation; pass the values directly.(„îÍ“8‰íææè1J$ad2a0a9a-7d88-4ad4-81e0-9cc271157e98
-†
-java:S6068P"CRemove this useless "eq(...)" invocation; pass the values directly.( Î“®8Šíææè1J$79557dc7-00a2-495a-b5c6-cec9f558d87e
+¦
+java:S5778Å"bRefactor the code of the lambda to have only one invocation possibly throwing a runtime exception.(ÌÌ¶È8ôè¹¥ê1J$bcee87c3-dc16-40f7-8316-be0db7384f79
+¦
+java:S5778ä"bRefactor the code of the lambda to have only one invocation possibly throwing a runtime exception.(æÞáµ8õè¹¥ê1J$8b2cbd13-8282-45ca-bd51-d56293eaf6fb

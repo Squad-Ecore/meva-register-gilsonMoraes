@@ -6,8 +6,7 @@ import lombok.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 public class FamilyDto {
     @NotNull @NotEmpty
     private Long idFamily;
