@@ -2,7 +2,7 @@ package com.meva.finance.serviceTest;
 
 import com.meva.finance.dto.FamilyDto;
 import com.meva.finance.dto.UserDto;
-import com.meva.finance.dto.UserUpdateDto;
+import com.meva.finance.dto.UserUpdate;
 import com.meva.finance.exception.CpfExistingException;
 import com.meva.finance.exception.CpfNotFoundException;
 import com.meva.finance.exception.IdFamilyNotFoundException;
@@ -56,6 +56,11 @@ public class UserServiceTest {
         testFamily.setDescription("Moraes");
         new FamilyDto().converterFamily();
 
+        testFamilyDto = new FamilyDto();
+        testFamilyDto.setIdFamily(3L);
+        testFamilyDto.setDescription("Rogick");
+        new FamilyDto().converterFamily();
+
         // Criação do usuário de teste e configuração do mock para retornar o usuário de teste ao buscar pelo CPF
         testUser = new User();
         testUser.setCpf("12345678900");
@@ -75,7 +80,7 @@ public class UserServiceTest {
         testUserDto.setState("Rio de Janeiro");
         testUserDto.setCity("Nova Iguaçu");
         testUserDto.setFamilyDto(new FamilyDto());
-        testUserDto.getFamilyDto().setIdFamily(2L);
+        testUserDto.getFamilyDto().setIdFamily(3L);
     }
 
 
@@ -84,7 +89,7 @@ public class UserServiceTest {
     public void testSaveNewUserSuccess() {
         // Configuração do mock para o UserRepository
         when(userRepository.findByCpf(any(String.class))).thenReturn(Optional.empty());
-        when(familyRepository.findById(2L)).thenReturn(Optional.of(testFamily));
+        when(familyRepository.findById(3L)).thenReturn(Optional.of(testFamily));
         when(userRepository.save(any(User.class))).thenReturn(testUser);
 
         // Execução do método a ser testado
@@ -120,31 +125,27 @@ public class UserServiceTest {
     @Test
     @DisplayName("Testa atualização de usuário com sucesso")
     public void testUpdateUserSuccess() {
-        // Cria um UserUpdateDto com os dados atualizados
-        UserUpdateDto updateUserDto = new UserUpdateDto();
-        updateUserDto.setCpf("12345678900"); // Defina o CPF corretamente
-        updateUserDto.setName("Novo Nome");
-
-        // Configura o mock para retornar o usuário de teste ao buscar pelo CPF
         when(userRepository.findById("12345678900")).thenReturn(Optional.of(testUser));
-        when(familyRepository.findById(2L)).thenReturn(Optional.of(testFamily));
+        when(familyRepository.findById(3L)).thenReturn(Optional.of(testFamily));
+
+        UserUpdate updatedUserDto = new UserUpdate();
+        updatedUserDto.setCpf("12345678900");
+        updatedUserDto.setName("Carlos");
+        updatedUserDto.setFamilyDto(testFamilyDto);
 
         // Chama o método a ser testado, passando o CPF e o objeto UserUpdateDto
-        User updatedUser = userService.updateUser("12345678900", updateUserDto);
+        User updatedUser = userService.updateUser("12345678900", updatedUserDto);
 
         // Verifica se o usuário foi atualizado corretamente
         assertNotNull(updatedUser);
-        assertEquals("Novo Nome", updatedUser.getName());
+        assertEquals("Carlos", updatedUser.getName());
     }
-
-
-
 
     @Test
     @DisplayName("Testa falha na atualização do usuário por CPF não encontrado")
     public void testUpdateUserCpfNotFoundException() {
         String cpf = "12345678900";
-        UserUpdateDto updateUserDto = new UserUpdateDto();
+        UserUpdate updateUserDto = new UserUpdate();
         updateUserDto.setFamilyDto(new FamilyDto());
 
         when(userRepository.findById(cpf)).thenReturn(Optional.empty());
@@ -155,7 +156,7 @@ public class UserServiceTest {
     @Test
     public void testUpdateUserIdFamilyNotFoundException() {
         String cpf = "12345678900";
-        UserUpdateDto updateUserDto = new UserUpdateDto();
+        UserUpdate updateUserDto = new UserUpdate();
         FamilyDto familyDto = new FamilyDto();
         familyDto.setIdFamily(1L);
         updateUserDto.setFamilyDto(familyDto);
@@ -174,7 +175,7 @@ public class UserServiceTest {
     public void selectUserSuccessByCpf() {
         // Preparação
         String cpf = "12345678900"; // Define o CPF de teste
-        when(userRepository.findByCpf(cpf)).thenReturn(Optional.of(testUser)); // Configura o mock para retornar o usuário de teste quando buscar pelo CPF
+        when(userRepository.findById(cpf)).thenReturn(Optional.of(testUser)); // Configura o mock para retornar o usuário de teste quando buscar pelo CPF
 
         // Execução
         User selectedUser = userService.selectUserById(Long.valueOf(cpf)); // Chama o método que seleciona o usuário por CPF
@@ -204,18 +205,19 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Testa exclusão de usuário por ID com sucesso!")
+    @DisplayName("Testa exclusão de usuário por ID com sucesso")
     public void deleteUserByIdSuccess() {
-        // Preparação
-        String cpf = "12345678900"; // Define o CPF de teste
-        when(userRepository.findByCpf(cpf)).thenReturn(Optional.of(testUser)); // Configura o mock para retornar o usuário de teste quando buscar pelo CPF
+        // Configura o mock para retornar o usuário de teste ao buscar pelo CPF
+        when(userRepository.findById("12345678900")).thenReturn(Optional.of(testUser));
 
-        // Execução
-        userService.deleteUser(Long.valueOf(cpf)); // Chama o método que exclui o usuário por ID
+        // Chama o método a ser testado, passando o CPF do usuário a ser excluído
+        userService.deleteUser(Long.valueOf("12345678900"));
 
-        // Verificação
-        verify(userRepository, times(1)).deleteById((cpf)); // Verifica se o método deleteById foi chamado uma vez com o ID correto
+        // Verifica se o método deleteById foi invocado com o CPF correto
+        verify(userRepository).deleteById("12345678900");
     }
+
+
 
     @Test
     @DisplayName("Testa exclusão de usuário por ID quando o usuário não é encontrado")

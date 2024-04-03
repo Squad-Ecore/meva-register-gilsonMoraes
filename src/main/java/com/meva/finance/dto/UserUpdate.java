@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-public class UserUpdateDto {
+public class UserUpdate {
 
     @JsonIgnore
     private String cpf;

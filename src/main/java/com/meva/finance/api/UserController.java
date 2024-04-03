@@ -1,7 +1,7 @@
 package com.meva.finance.api;
 
 import com.meva.finance.dto.UserDto;
-import com.meva.finance.dto.UserUpdateDto;
+import com.meva.finance.dto.UserUpdate;
 import com.meva.finance.exception.CpfExistingException;
 import com.meva.finance.exception.CpfNotFoundException;
 import com.meva.finance.model.User;
@@ -34,7 +34,7 @@ public class UserController {
     }
     @PutMapping("/update/{cpf}")
     @Transactional
-    public ResponseEntity<String> updateUser(@PathVariable String cpf, @RequestBody UserUpdateDto updateUserDto) {
+    public ResponseEntity<String> updateUser(@PathVariable String cpf, @RequestBody UserUpdate updateUserDto) {
         try {
             userService.updateUser(cpf, updateUserDto);
             return ResponseEntity.ok(String.format("Cpf %s atualizado com sucesso!", cpf));

@@ -1,7 +1,7 @@
 package com.meva.finance.service;
 
 import com.meva.finance.dto.UserDto;
-import com.meva.finance.dto.UserUpdateDto;
+import com.meva.finance.dto.UserUpdate;
 import com.meva.finance.exception.CpfExistingException;
 import com.meva.finance.exception.CpfNotFoundException;
 import com.meva.finance.exception.IdFamilyNotFoundException;
@@ -44,7 +44,7 @@ public class UserService {
         throw new IdFamilyNotFoundException(userDto.getFamilyDto().getIdFamily());
     }
 
-    public User updateUser(String cpf, UserUpdateDto updateUserDto)
+    public User updateUser(String cpf, UserUpdate updateUserDto)
             throws CpfNotFoundException, IdFamilyNotFoundException {
         User existingUser = userRepository.findById(cpf)
                 .orElseThrow(() -> new CpfNotFoundException(cpf));
@@ -58,7 +58,7 @@ public class UserService {
         return userRepository.save(existingUser);
     }
 
-    private void updateFields(User existingUser, UserUpdateDto updateUserDto) {
+    private void updateFields(User existingUser, UserUpdate updateUserDto) {
         existingUser.setName(getUpdatedValue(existingUser.getName(), updateUserDto.getName()));
         existingUser.setGenre(getUpdatedValue(existingUser.getGenre(), updateUserDto.getGenre()));
         existingUser.setState(getUpdatedValue(existingUser.getState(), updateUserDto.getState()));
