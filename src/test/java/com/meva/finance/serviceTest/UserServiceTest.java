@@ -201,19 +201,16 @@ public class UserServiceTest {
 
         // Verificação
         assertNotNull(exception); // Verifica se a exceção foi lançada
-        assertEquals("O Cpf " + cpf + " não foi encontrado!", exception.getMessage()); // Verifica a mensagem da exceção
+        assertEquals("O Cpf " + cpf + " não foi encontrado!", exception.getMessage());
     }
 
     @Test
     @DisplayName("Testa exclusão de usuário por ID com sucesso")
     public void deleteUserByIdSuccess() {
-        // Configura o mock para retornar a instância de usuário ao buscar pelo CPF
         when(userRepository.findById("12345678900")).thenReturn(Optional.of(testUser));
 
-        // Chama o método a ser testado, passando o CPF do usuário a ser excluído
         userService.deleteUser("12345678900");
 
-        // Verifica se o método deleteById foi invocado com o CPF correto
         verify(userRepository).deleteById("12345678900");
     }
 
@@ -222,11 +219,10 @@ public class UserServiceTest {
     @Test
     @DisplayName("Testa exclusão de usuário por ID quando o usuário não é encontrado")
     public void deleteUserByIdNotFoundException() {
-        // Preparação
-        String cpf = "99999999999"; // Define um CPF que não existe no sistema
-        when(userRepository.findByCpf(cpf)).thenReturn(Optional.empty()); // Configura o mock para retornar um Optional vazio quando buscar pelo CPF
+        String cpf = "99999999999"; //
+        when(userRepository.findByCpf(cpf)).thenReturn(Optional.empty());
 
-        // Execução e Verificação
+
         assertThrows(CpfNotFoundException.class, () -> userService.deleteUser(cpf)); // Verifica se o método lança a exceção correta quando o usuário não é encontrado
     }
 

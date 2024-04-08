@@ -41,5 +41,3 @@ o
 ?src/main/java/com/meva/finance/repository/FamilyRepository.java,f\c\fc93c9950dec026c6e6663f8b8be2c1b699d99ac
 r
 Bsrc/main/java/com/meva/finance/exception/CpfNotFoundException.java,5\7\577c8f7830c3b4a8556feb8b58bc2c481e16c620
-w
-Gsrc/main/java/com/meva/finance/exception/AllGlobalHandlerException.java,c\3\c3eda96328707c8ca10dd3613c0f35c6b82dee4b

@@ -45,5 +45,3 @@ f
 6src/test/java/com/meva/finance/modelTest/UserTest.java,6\6\661b63cd8be528b9406b85c6cd79d59a6d2a2f54
 b
 2src/main/java/com/meva/finance/dto/UserUpdate.java,d\a\da58600a9609de4496be31e6ba4eb415cce19dc1
-w
-Gsrc/main/java/com/meva/finance/exception/AllGlobalHandlerException.java,c\3\c3eda96328707c8ca10dd3613c0f35c6b82dee4b
