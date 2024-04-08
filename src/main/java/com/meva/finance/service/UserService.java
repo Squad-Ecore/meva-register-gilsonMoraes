@@ -84,13 +84,13 @@ public class UserService {
         }
     }
 
-    public void deleteUser(Long cpf) throws CpfNotFoundException {
-        Optional<User> userOptional = userRepository.findById(String.valueOf(cpf));
+    public void deleteUser(String cpf) throws CpfNotFoundException {
+        Optional<User> userOptional = userRepository.findById(cpf);
 
         if (userOptional.isPresent()) {
-            userRepository.delete(userOptional.get());
+            userRepository.deleteById(String.valueOf(userOptional.get()));
         } else {
-            throw new CpfNotFoundException(String.valueOf(cpf));
+            throw new CpfNotFoundException(cpf);
         }
     }
 }

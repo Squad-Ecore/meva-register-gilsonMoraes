@@ -27,8 +27,6 @@ b
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 r
 Bsrc/main/java/com/meva/finance/exception/CpfExistingException.java,7\0\7075d8385a4beecc5fb82534784293cd93a482b3
-e
-5src/main/java/com/meva/finance/dto/UserUpdateDto.java,0\e\0ea707e75b6e2b38a94d4a205871643d801b2dac
 w
 Gsrc/main/java/com/meva/finance/exception/IdFamilyNotFoundException.java,1\e\1e9560bdf7d35c6d8fbf0ab0e1524d57daf4297f
 t
@@ -45,3 +43,7 @@ n
 >src/test/java/com/meva/finance/apiTest/UserControllerTest.java,5\7\577761e2c7392fe7302ebc2b266d62c10b8b9476
 f
 6src/test/java/com/meva/finance/modelTest/UserTest.java,6\6\661b63cd8be528b9406b85c6cd79d59a6d2a2f54
+b
+2src/main/java/com/meva/finance/dto/UserUpdate.java,d\a\da58600a9609de4496be31e6ba4eb415cce19dc1
+w
+Gsrc/main/java/com/meva/finance/exception/AllGlobalHandlerException.java,c\3\c3eda96328707c8ca10dd3613c0f35c6b82dee4b

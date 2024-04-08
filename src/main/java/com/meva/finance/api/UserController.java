@@ -58,7 +58,7 @@ public class UserController {
     @Transactional
     public ResponseEntity<String> deleteUser(@PathVariable Long cpf) {
         try {
-            userService.deleteUser(cpf);
+            userService.deleteUser(String.valueOf(cpf));
             return ResponseEntity.ok("Usuário deletado com sucesso!");
         } catch (CpfNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
