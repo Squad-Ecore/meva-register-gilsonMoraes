@@ -41,7 +41,5 @@ o
 ?src/test/java/com/meva/finance/serviceTest/UserServiceTest.java,c\1\c1f0deead2b6f5511c473d5914008f3d9a0cba66
 n
 >src/test/java/com/meva/finance/apiTest/UserControllerTest.java,5\7\577761e2c7392fe7302ebc2b266d62c10b8b9476
-f
-6src/test/java/com/meva/finance/modelTest/UserTest.java,6\6\661b63cd8be528b9406b85c6cd79d59a6d2a2f54
 b
 2src/main/java/com/meva/finance/dto/UserUpdate.java,d\a\da58600a9609de4496be31e6ba4eb415cce19dc1

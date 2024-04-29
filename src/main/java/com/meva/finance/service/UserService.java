@@ -88,7 +88,7 @@ public class UserService {
         Optional<User> userOptional = userRepository.findById(cpf);
 
         if (userOptional.isPresent()) {
-            userRepository.deleteById(String.valueOf(userOptional.get()));
+            userRepository.deleteById(cpf);
         } else {
             throw new CpfNotFoundException(cpf);
         }

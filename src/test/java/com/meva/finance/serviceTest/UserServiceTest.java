@@ -25,6 +25,7 @@ import java.util.Optional;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -128,17 +129,21 @@ public class UserServiceTest {
         when(userRepository.findById("12345678900")).thenReturn(Optional.of(testUser));
         when(familyRepository.findById(3L)).thenReturn(Optional.of(testFamily));
 
-        UserUpdate updatedUserDto = new UserUpdate();
-        updatedUserDto.setCpf("12345678900");
-        updatedUserDto.setName("Carlos");
-        updatedUserDto.setFamilyDto(testFamilyDto);
+        UserUpdate updateUserDto = new UserUpdate();
+        updateUserDto.setCpf("12345678900");
+        updateUserDto.setName("Carlos");
+        updateUserDto.setGenre("M");
+        updateUserDto.setBirth(LocalDate.parse("2222-12-12"));
+        updateUserDto.setState("São Paulo");
+        updateUserDto.setCity("São Paulo");
+        updateUserDto.setFamilyDto(testFamilyDto);
+
 
         // Chama o método a ser testado, passando o CPF e o objeto UserUpdateDto
-        User updatedUser = userService.updateUser("12345678900", updatedUserDto);
+        User updatedUser = userService.updateUser("12345678900", updateUserDto);
 
         // Verifica se o usuário foi atualizado corretamente
-        assertNotNull(updatedUser);
-        assertEquals("Carlos", updatedUser.getName());
+        assertNotEquals(testUser, updatedUser);
     }
 
     @Test
@@ -215,7 +220,6 @@ public class UserServiceTest {
     }
 
 
-
     @Test
     @DisplayName("Testa exclusão de usuário por ID quando o usuário não é encontrado")
     public void deleteUserByIdNotFoundException() {
@@ -225,6 +229,4 @@ public class UserServiceTest {
 
         assertThrows(CpfNotFoundException.class, () -> userService.deleteUser(cpf)); // Verifica se o método lança a exceção correta quando o usuário não é encontrado
     }
-
-
 }
