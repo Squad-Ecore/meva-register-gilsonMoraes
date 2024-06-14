@@ -6,8 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Data
 @Entity
+@Data
 @Table(name = "family")
 public class Family {
     @Id
@@ -19,5 +19,4 @@ public class Family {
     @NotNull
     @NotEmpty
     private String description;
-
 }

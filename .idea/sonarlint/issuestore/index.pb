@@ -9,8 +9,6 @@ n
 >src/test/java/com/meva/finance/apiTest/UserControllerTest.java,5\7\577761e2c7392fe7302ebc2b266d62c10b8b9476
 w
 Gsrc/main/java/com/meva/finance/exception/IdFamilyNotFoundException.java,1\e\1e9560bdf7d35c6d8fbf0ab0e1524d57daf4297f
-t
-Dsrc/main/java/com/meva/finance/exception/GlobalHandlerException.java,5\6\56204dc061fc0393f77c9517aa393ce418bc5b8e
 b
 2src/main/java/com/meva/finance/dto/UserUpdate.java,d\a\da58600a9609de4496be31e6ba4eb415cce19dc1
 _
@@ -29,8 +27,6 @@ f
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 r
 Bsrc/main/java/com/meva/finance/exception/CpfExistingException.java,7\0\7075d8385a4beecc5fb82534784293cd93a482b3
-b
-2src/main/java/com/meva/finance/api/Controller.java,1\2\12a6392c380556a3064f63db4c9b18849e1c35b6
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 _
@@ -39,3 +35,17 @@ o
 ?src/main/java/com/meva/finance/repository/FamilyRepository.java,f\c\fc93c9950dec026c6e6663f8b8be2c1b699d99ac
 r
 Bsrc/main/java/com/meva/finance/exception/CpfNotFoundException.java,5\7\577c8f7830c3b4a8556feb8b58bc2c481e16c620
+e
+5src/test/java/com/meva/finance/model/UserDtoTest.java,c\5\c5ca9bba58405d07a177bd904c9af03964c671b9
+g
+7src/test/java/com/meva/finance/dtoTest/UserDtoTest.java,b\7\b78b2468793c239402b714ae01b99eac85e0d088
+i
+9src/test/java/com/meva/finance/dtoTest/FamilyDtoTest.java,5\2\52894253380f66026e9e5b0cc9001244053d26a6
+j
+:src/test/java/com/meva/finance/dtoTest/UserUpdateTest.java,9\7\971d2c4ccdb629ecd9ea8e032a0a17e055292e38
+f
+6src/test/java/com/meva/finance/modelTest/UserTest.java,6\6\661b63cd8be528b9406b85c6cd79d59a6d2a2f54
+h
+8src/test/java/com/meva/finance/modelTest/FamilyTest.java,9\4\940abaf2ad6117e41d8499c1400ec3594f70d5c7
+j
+:src/test/java/com/meva/finance/configTest/SwaggerTest.java,d\9\d98d0404436135bbaa56e865d3125fd99b155b23

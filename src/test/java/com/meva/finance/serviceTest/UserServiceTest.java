@@ -91,7 +91,7 @@ public class UserServiceTest {
         // Configuração do mock para o UserRepository
         when(userRepository.findByCpf(any(String.class))).thenReturn(Optional.empty());
         when(familyRepository.findById(3L)).thenReturn(Optional.of(testFamily));
-        when(userRepository.save(any(User.class))).thenReturn(testUser);
+        when(userRepository.save(any(User.class))).thenReturn(testUserDto.converterUser());
 
         // Execução do método a ser testado
         User savedUser = userService.saveUser(testUserDto);
@@ -200,9 +200,8 @@ public class UserServiceTest {
         when(userRepository.findByCpf(cpf)).thenReturn(Optional.empty()); // Configura o mock para retornar um Optional vazio quando buscar pelo CPF
 
         // Execução e verificação
-        CpfNotFoundException exception = assertThrows(CpfNotFoundException.class, () -> {
-            userService.selectUserById(Long.valueOf(cpf));
-        });
+        CpfNotFoundException exception = assertThrows(CpfNotFoundException.class, () ->
+                userService.selectUserById(Long.valueOf(cpf)));
 
         // Verificação
         assertNotNull(exception); // Verifica se a exceção foi lançada

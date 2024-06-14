@@ -43,7 +43,6 @@ public class UserDto {
         //aprender sobre BUILDER e refatorar
         return user;
     }
-
 }
 
 

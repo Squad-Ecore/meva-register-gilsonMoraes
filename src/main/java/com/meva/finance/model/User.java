@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_meva")
@@ -24,4 +24,5 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "id_family", referencedColumnName = "id_family")
     private Family family;
+
 }

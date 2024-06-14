@@ -2,51 +2,46 @@
 
 import com.meva.finance.model.User;
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 <span class="nc bnc" id="L11" title="All 62 branches missed.">@Data</span>
 public class UserDto {
 
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = &quot;\\d{11}&quot;)
-<span class="nc" id="L17">    private String cpf;</span>
+    @CPF
+<span class="nc" id="L15">    private String cpf;</span>
 
-    @NotNull
-    @NotEmpty
-<span class="nc" id="L21">    private String name;</span>
+    @NotBlank
+<span class="nc" id="L18">    private String name;</span>
 
     @Pattern(regexp = &quot;(?i)[MF]&quot;, message = &quot;Insira um gênero válido!&quot;)
-<span class="nc" id="L24">    private String genre;</span>
+<span class="nc" id="L21">    private String genre;</span>
 
-    @NotNull
-<span class="nc" id="L27">    private LocalDate birth;</span>
+    @NotBlank
+<span class="nc" id="L24">    private LocalDate birth;</span>
 
-    @NotNull
-    @NotEmpty
-<span class="nc" id="L31">    private String state;</span>
+    @NotBlank
+<span class="nc" id="L27">    private String state;</span>
 
-    @NotNull
-    @NotEmpty
-<span class="nc" id="L35">    private String city;</span>
+    @NotBlank
+<span class="nc" id="L30">    private String city;</span>
 
-<span class="nc" id="L37">    private FamilyDto familyDto;</span>
+<span class="nc" id="L32">    private FamilyDto familyDto;</span>
 
     public User converterUser() {
-<span class="nc" id="L40">        User user = new User();</span>
-<span class="nc" id="L41">        user.setCpf(cpf);</span>
-<span class="nc" id="L42">        user.setName(name);</span>
-<span class="nc" id="L43">        user.setGenre(genre);</span>
-<span class="nc" id="L44">        user.setBirth(birth);</span>
-<span class="nc" id="L45">        user.setState(state);</span>
-<span class="nc" id="L46">        user.setCity(city);</span>
+<span class="nc" id="L35">        User user = new User();</span>
+<span class="nc" id="L36">        user.setCpf(cpf);</span>
+<span class="nc" id="L37">        user.setName(name);</span>
+<span class="nc" id="L38">        user.setGenre(genre);</span>
+<span class="nc" id="L39">        user.setBirth(birth);</span>
+<span class="nc" id="L40">        user.setState(state);</span>
+<span class="nc" id="L41">        user.setCity(city);</span>
         //Chamar converter familyDto para setar na family que está dentro de user -- OK
         //aprender sobre BUILDER e refatorar
-<span class="nc" id="L49">        return user;</span>
+<span class="nc" id="L44">        return user;</span>
     }
 
 }

@@ -6,6 +6,7 @@ import com.meva.finance.exception.CpfExistingException;
 import com.meva.finance.exception.CpfNotFoundException;
 import com.meva.finance.model.User;
 import com.meva.finance.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,14 @@ import javax.validation.Valid;
 @RestController // Esse controle é um rest controller
 @RequestMapping("/users") // < MAPEAMENTO
 @RequiredArgsConstructor
+
 public class UserController {
 
     private final UserService userService; // Injeção de dependência
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     @Transactional

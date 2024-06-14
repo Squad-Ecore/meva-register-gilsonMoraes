@@ -7,9 +7,9 @@ com\meva\finance\config\SwaggerConfig.class
 com\meva\finance\exception\CpfExistingException.class
 com\meva\finance\api\UserController.class
 com\meva\finance\exception\CpfNotFoundException.class
-com\meva\finance\dto\UserUpdateDto.class
 com\meva\finance\api\Controller.class
 com\meva\finance\service\UserService.class
+com\meva\finance\dto\UserUpdate.class
 com\meva\finance\model\User.class
 com\meva\finance\model\Family.class
 com\meva\finance\dto\FamilyDto.class

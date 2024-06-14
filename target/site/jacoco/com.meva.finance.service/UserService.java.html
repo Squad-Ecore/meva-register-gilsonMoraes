@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">scaffold-java</a> &gt; <a href="index.source.html" class="el_package">com.meva.finance.service</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package com.meva.finance.service;
 
 import com.meva.finance.dto.UserDto;
-import com.meva.finance.dto.UserUpdateDto;
+import com.meva.finance.dto.UserUpdate;
 import com.meva.finance.exception.CpfExistingException;
 import com.meva.finance.exception.CpfNotFoundException;
 import com.meva.finance.exception.IdFamilyNotFoundException;
@@ -12,7 +12,6 @@ import com.meva.finance.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -22,77 +21,77 @@ public class UserService {
 
     private final FamilyRepository familyRepository;
 
-<span class="nc" id="L25">    public UserService(UserRepository userRepository, FamilyRepository familyRepository) {</span>
-<span class="nc" id="L26">        this.userRepository = userRepository;</span>
-<span class="nc" id="L27">        this.familyRepository = familyRepository;</span>
-<span class="nc" id="L28">    }</span>
+<span class="nc" id="L24">    public UserService(UserRepository userRepository, FamilyRepository familyRepository) {</span>
+<span class="nc" id="L25">        this.userRepository = userRepository;</span>
+<span class="nc" id="L26">        this.familyRepository = familyRepository;</span>
+<span class="nc" id="L27">    }</span>
 
     public User saveUser(UserDto userDto) {
-<span class="nc" id="L31">        User user = userDto.converterUser();</span>
-<span class="nc" id="L32">        user.setFamily(validateFamily(userDto));</span>
-<span class="nc" id="L33">        return userRepository.save(user);</span>
+<span class="nc" id="L30">        User user = userDto.converterUser();</span>
+<span class="nc" id="L31">        user.setFamily(validateFamily(userDto));</span>
+<span class="nc" id="L32">        return userRepository.save(user);</span>
     }
 
     private Family validateFamily(UserDto userDto)
             throws CpfExistingException, IdFamilyNotFoundException {
-<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (userRepository.findByCpf(userDto.getCpf()).isPresent()) {</span>
-<span class="nc" id="L39">            throw new CpfExistingException(userDto.getCpf());</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (userRepository.findByCpf(userDto.getCpf()).isPresent()) {</span>
+<span class="nc" id="L38">            throw new CpfExistingException(userDto.getCpf());</span>
         }
-<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (familyRepository.findById(userDto.getFamilyDto().getIdFamily()).isPresent() ||</span>
-<span class="nc bnc" id="L42" title="All 4 branches missed.">                (userDto.getFamilyDto().getIdFamily() == null || userDto.getFamilyDto().getIdFamily() == 0)) {</span>
-<span class="nc" id="L43">            return familyRepository.save(userDto.getFamilyDto().converterFamily());</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (familyRepository.findById(userDto.getFamilyDto().getIdFamily()).isPresent() ||</span>
+<span class="nc bnc" id="L41" title="All 4 branches missed.">                (userDto.getFamilyDto().getIdFamily() == null || userDto.getFamilyDto().getIdFamily() == 0)) {</span>
+<span class="nc" id="L42">            return familyRepository.save(userDto.getFamilyDto().converterFamily());</span>
         }
-<span class="nc" id="L45">        throw new IdFamilyNotFoundException(userDto.getFamilyDto().getIdFamily());</span>
+<span class="nc" id="L44">        throw new IdFamilyNotFoundException(userDto.getFamilyDto().getIdFamily());</span>
     }
 
-    public User updateUser(String cpf, UserUpdateDto updateUserDto)
+    public User updateUser(String cpf, UserUpdate updateUserDto)
             throws CpfNotFoundException, IdFamilyNotFoundException {
-<span class="nc" id="L50">        User existingUser = userRepository.findById(cpf)</span>
-<span class="nc" id="L51">                .orElseThrow(() -&gt; new CpfNotFoundException(cpf));</span>
+<span class="nc" id="L49">        User existingUser = userRepository.findById(cpf)</span>
+<span class="nc" id="L50">                .orElseThrow(() -&gt; new CpfNotFoundException(cpf));</span>
 
-<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (!familyRepository.findById(updateUserDto.getFamilyDto().getIdFamily()).isPresent()) {</span>
-<span class="nc" id="L54">            throw new IdFamilyNotFoundException(updateUserDto.getFamilyDto().getIdFamily());</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (!familyRepository.findById(updateUserDto.getFamilyDto().getIdFamily()).isPresent()) {</span>
+<span class="nc" id="L53">            throw new IdFamilyNotFoundException(updateUserDto.getFamilyDto().getIdFamily());</span>
         }
 
-<span class="nc" id="L57">        updateFields(existingUser, updateUserDto);</span>
+<span class="nc" id="L56">        updateFields(existingUser, updateUserDto);</span>
 
-<span class="nc" id="L59">        return userRepository.save(existingUser);</span>
+<span class="nc" id="L58">        return userRepository.save(existingUser);</span>
     }
 
-    private void updateFields(User existingUser, UserUpdateDto updateUserDto) {
-<span class="nc" id="L63">        existingUser.setName(getUpdatedValue(existingUser.getName(), updateUserDto.getName()));</span>
-<span class="nc" id="L64">        existingUser.setGenre(getUpdatedValue(existingUser.getGenre(), updateUserDto.getGenre()));</span>
-<span class="nc" id="L65">        existingUser.setState(getUpdatedValue(existingUser.getState(), updateUserDto.getState()));</span>
-<span class="nc" id="L66">        existingUser.setCity(getUpdatedValue(existingUser.getCity(), updateUserDto.getCity()));</span>
+    private void updateFields(User existingUser, UserUpdate updateUserDto) {
+<span class="nc" id="L62">        existingUser.setName(getUpdatedValue(existingUser.getName(), updateUserDto.getName()));</span>
+<span class="nc" id="L63">        existingUser.setGenre(getUpdatedValue(existingUser.getGenre(), updateUserDto.getGenre()));</span>
+<span class="nc" id="L64">        existingUser.setState(getUpdatedValue(existingUser.getState(), updateUserDto.getState()));</span>
+<span class="nc" id="L65">        existingUser.setCity(getUpdatedValue(existingUser.getCity(), updateUserDto.getCity()));</span>
 
-<span class="nc" id="L68">        LocalDate birth = updateUserDto.getBirth();</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (birth != null) {</span>
-<span class="nc" id="L70">            existingUser.setBirth(birth);</span>
+<span class="nc" id="L67">        LocalDate birth = updateUserDto.getBirth();</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (birth != null) {</span>
+<span class="nc" id="L69">            existingUser.setBirth(birth);</span>
         }
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L71">    }</span>
 
     private String getUpdatedValue(String currentValue, String newValue) {
-<span class="nc bnc" id="L75" title="All 4 branches missed.">        return (newValue != null &amp;&amp; !newValue.isEmpty()) ? newValue : currentValue;</span>
+<span class="nc bnc" id="L74" title="All 4 branches missed.">        return (newValue != null &amp;&amp; !newValue.isEmpty()) ? newValue : currentValue;</span>
     }
 
     public User selectUserById(Long cpf) throws CpfNotFoundException {
-<span class="nc" id="L79">        Optional&lt;User&gt; userOptional = userRepository.findById(String.valueOf(cpf));</span>
+<span class="nc" id="L78">        Optional&lt;User&gt; userOptional = userRepository.findById(String.valueOf(cpf));</span>
 
-<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (userOptional.isPresent()) {</span>
-<span class="nc" id="L82">            return userOptional.get();</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (userOptional.isPresent()) {</span>
+<span class="nc" id="L81">            return userOptional.get();</span>
         } else {
-<span class="nc" id="L84">            throw new CpfNotFoundException(String.valueOf(cpf));</span>
+<span class="nc" id="L83">            throw new CpfNotFoundException(String.valueOf(cpf));</span>
         }
     }
 
-    public void deleteUser(Long cpf) throws CpfNotFoundException {
-<span class="nc" id="L89">        Optional&lt;User&gt; userOptional = userRepository.findById(String.valueOf(cpf));</span>
+    public void deleteUser(String cpf) throws CpfNotFoundException {
+<span class="nc" id="L88">        Optional&lt;User&gt; userOptional = userRepository.findById(cpf);</span>
 
-<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (userOptional.isPresent()) {</span>
-<span class="nc" id="L92">            userRepository.delete(userOptional.get());</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (userOptional.isPresent()) {</span>
+<span class="nc" id="L91">            userRepository.deleteById(cpf);</span>
         } else {
-<span class="nc" id="L94">            throw new CpfNotFoundException(String.valueOf(cpf));</span>
+<span class="nc" id="L93">            throw new CpfNotFoundException(cpf);</span>
         }
-<span class="nc" id="L96">    }</span>
+<span class="nc" id="L95">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -6,20 +6,19 @@ import lombok.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Getter
-<span class="nc" id="L10">@Setter</span>
-<span class="nc" id="L11">public class FamilyDto {</span>
+<span class="nc bnc" id="L9" title="All 22 branches missed.">@Data</span>
+public class FamilyDto {
     @NotNull @NotEmpty
-<span class="nc" id="L13">    private Long idFamily;</span>
+<span class="nc" id="L12">    private Long idFamily;</span>
 
     @NotNull @NotEmpty
-<span class="nc" id="L16">    private String description;</span>
+<span class="nc" id="L15">    private String description;</span>
 
     public Family converterFamily(){
-<span class="nc" id="L19">        Family family = new Family();</span>
-<span class="nc" id="L20">        family.setIdFamily(idFamily);</span>
-<span class="nc" id="L21">        family.setDescription(description);</span>
-<span class="nc" id="L22">        return family;</span>
+<span class="nc" id="L18">        Family family = new Family();</span>
+<span class="nc" id="L19">        family.setIdFamily(idFamily);</span>
+<span class="nc" id="L20">        family.setDescription(description);</span>
+<span class="nc" id="L21">        return family;</span>
     }
 
 }
