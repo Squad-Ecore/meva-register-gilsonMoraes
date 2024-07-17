@@ -46,7 +46,7 @@ public class UserService {
 
     public User updateUser(String cpf, UserUpdate updateUserDto)
             throws CpfNotFoundException, IdFamilyNotFoundException {
-        User existingUser = userRepository.findById(cpf)
+        User existingUser = userRepository.findByCpf(cpf)
                 .orElseThrow(() -> new CpfNotFoundException(cpf));
 
         if (!familyRepository.findById(updateUserDto.getFamilyDto().getIdFamily()).isPresent()) {
@@ -75,7 +75,7 @@ public class UserService {
     }
 
     public User selectUserById(Long cpf) throws CpfNotFoundException {
-        Optional<User> userOptional = userRepository.findById(String.valueOf(cpf));
+        Optional<User> userOptional = userRepository.findByCpf(String.valueOf(cpf));
 
         if (userOptional.isPresent()) {
             return userOptional.get();
@@ -85,7 +85,7 @@ public class UserService {
     }
 
     public void deleteUser(String cpf) throws CpfNotFoundException {
-        Optional<User> userOptional = userRepository.findById(cpf);
+        Optional<User> userOptional = userRepository.findByCpf(cpf);
 
         if (userOptional.isPresent()) {
             userRepository.deleteById(cpf);

@@ -11,22 +11,18 @@ import com.meva.finance.model.User;
 import com.meva.finance.repository.FamilyRepository;
 import com.meva.finance.repository.UserRepository;
 import com.meva.finance.service.UserService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -47,185 +43,195 @@ public class UserServiceTest {
     private UserService userService;
 
     //TESTES DE SAVEUSER
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
-        // Criação da família de teste e configuração do mock para retornar a família de teste ao buscar pelo ID
-        testFamily = new Family();
-        testFamily.setIdFamily(2L);
-        testFamily.setDescription("Moraes");
-        new FamilyDto().converterFamily();
-
+        //DTO PARA TESTAR FAMÍLIA
         testFamilyDto = new FamilyDto();
-        testFamilyDto.setIdFamily(3L);
-        testFamilyDto.setDescription("Rogick");
-        new FamilyDto().converterFamily();
+        testFamilyDto.setIdFamily(1L);
+        testFamilyDto.setDescription("Familia Dto");
 
-        // Criação do usuário de teste e configuração do mock para retornar o usuário de teste ao buscar pelo CPF
-        testUser = new User();
-        testUser.setCpf("12345678900");
-        testUser.setName("Gilson");
-        testUser.setGenre("M");
-        testUser.setBirth(LocalDate.parse("2222-12-22"));
-        testUser.setState("Rio de Janeiro");
-        testUser.setCity("Nova Iguaçu");
-        testUser.setFamily(testFamily);
-
-        // Criação do DTO de usuário de teste
+        //DTO PARA TESTAR USUÁRIO
         testUserDto = new UserDto();
         testUserDto.setCpf("12345678900");
-        testUserDto.setName("Gilson");
+        testUserDto.setName("Nome Dto");
         testUserDto.setGenre("M");
-        testUserDto.setBirth(LocalDate.parse("2222-12-22"));
-        testUserDto.setState("Rio de Janeiro");
-        testUserDto.setCity("Nova Iguaçu");
-        testUserDto.setFamilyDto(new FamilyDto());
-        testUserDto.getFamilyDto().setIdFamily(3L);
+        testUserDto.setBirth(LocalDate.parse("1990-02-02"));
+        testUserDto.setState("Rio de janeiro Dto");
+        testUserDto.setCity("Nova iguaçu Dto");
+        testUserDto.setFamilyDto(testFamilyDto);
+
+        //TESTE PARA TESTAR FAMÍLIA
+        testFamily = new Family();
+        testFamily.setIdFamily(1L);
+        testFamily.setDescription("Familia");
+
+        //TESTE PARA TESTAR USUÁRIO
+        testUser = new User();
+        testUser.setCpf("12345678911");
+        testUser.setName("Nome");
+        testUser.setGenre("M");
+        testUser.setBirth(LocalDate.parse("1990-02-02"));
+        testUser.setState("Rio de janeiro");
+        testUser.setCity("Nova iguaçu");
+        testUser.setFamily(testFamily);
     }
 
+    @Test // OK
+    @DisplayName("Usuário salvo com sucesso!")
+    public void testSaveUser() {
+        when(userRepository.findByCpf(testUserDto.getCpf())).thenReturn(Optional.empty());
+        when(familyRepository.findById(testUserDto.getFamilyDto().getIdFamily())).thenReturn(Optional.of(testFamily));
+        when(userRepository.save(any(User.class))).thenReturn(testUser);
+        when(familyRepository.save(any(Family.class))).thenReturn(testFamily);
 
-    @Test
-    @DisplayName("Testa usuário salvo com sucesso!")
-    public void testSaveNewUserSuccess() {
-        // Configuração do mock para o UserRepository
-        when(userRepository.findByCpf(any(String.class))).thenReturn(Optional.empty());
-        when(familyRepository.findById(3L)).thenReturn(Optional.of(testFamily));
-        when(userRepository.save(any(User.class))).thenReturn(testUserDto.converterUser());
-
-        // Execução do método a ser testado
         User savedUser = userService.saveUser(testUserDto);
 
-        // Verificação do resultado
-        assertNotNull(savedUser);
-        assertEquals(testUserDto.getName(), savedUser.getName());
+        assertEquals(testUser.getCpf(), savedUser.getCpf());
+        assertNotNull(savedUser.getFamily());
+
+        verify(userRepository, times(1)).save(any(User.class));
+        verify(familyRepository, times(1)).save(any(Family.class));
     }
 
-    @Test(expected = CpfExistingException.class)
-    @DisplayName("Testa falha ao salvar usuário com CPF já existente")
-    public void TestSaveNewUserWithCpfExistingException() throws CpfExistingException {
-        when(userRepository.findByCpf(any(String.class))).thenReturn(Optional.of(new User()));
+    @Test // OK
+    @DisplayName("Salvar usuário com CPF existente")
+    public void testSaveUserCpfExistingException() {
+        when(userRepository.findByCpf(testUserDto.getCpf())).thenReturn(Optional.of(testUser));
 
-        userService.saveUser(testUserDto);
+        assertThrows(CpfExistingException.class, () -> userService.saveUser(testUserDto));
 
-        // Verifica se o método save do userRepository nunca é chamado
-        verify(userRepository, never()).save(any(User.class));
+        verify(userRepository, times(0)).save(any(User.class));
+        verify(familyRepository, times(0)).save(any(Family.class));
     }
 
-    @Test(expected = IdFamilyNotFoundException.class)
-    @DisplayName("Testa falha ao salvar usuário por família não encontrada")
-    public void TestIdFamilyNotFoundException() throws IdFamilyNotFoundException {
-        when(userRepository.findByCpf(any(String.class))).thenReturn(Optional.empty());
-        when(familyRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+    @Test // OK
+    @DisplayName("Salvar usuário com família inexistente")
+    public void testSaveUserIdFamilyNotFoundException() throws IdFamilyNotFoundException {
+        when(userRepository.findByCpf(testUserDto.getCpf())).thenReturn(Optional.empty());
+        when(familyRepository.findById(testUserDto.getFamilyDto().getIdFamily())).thenReturn(Optional.empty());
 
-        userService.saveUser(testUserDto);
-        verify(userRepository, never()).save(any(User.class));
+        assertThrows(IdFamilyNotFoundException.class, () -> userService.saveUser(testUserDto));
+
+        verify(userRepository, times(0)).save(any(User.class));
+        verify(familyRepository, times(0)).save(any(Family.class));
     }
+
 
     //TESTES DE UPDATEUSER
     @Test
-    @DisplayName("Testa atualização de usuário com sucesso")
+    @DisplayName("Atualização de usuário com sucesso")
     public void testUpdateUserSuccess() {
-        when(userRepository.findById("12345678900")).thenReturn(Optional.of(testUser));
-        when(familyRepository.findById(3L)).thenReturn(Optional.of(testFamily));
-
+        String cpf = testUser.getCpf();
         UserUpdate updateUserDto = new UserUpdate();
-        updateUserDto.setCpf("12345678900");
-        updateUserDto.setName("Carlos");
-        updateUserDto.setGenre("M");
-        updateUserDto.setBirth(LocalDate.parse("2222-12-12"));
-        updateUserDto.setState("São Paulo");
-        updateUserDto.setCity("São Paulo");
+        updateUserDto.setName("Novo Nome");
+        updateUserDto.setCity("Nova Cidade");
+        updateUserDto.setState("Novo Estado");
         updateUserDto.setFamilyDto(testFamilyDto);
 
+        when(userRepository.findByCpf(cpf)).thenReturn(Optional.of(testUser));
+        when(familyRepository.findById(testFamilyDto.getIdFamily()))
+                .thenReturn(Optional.of(testFamily));
+        when(userRepository.save(any(User.class))).thenReturn(testUser);
 
-        // Chama o método a ser testado, passando o CPF e o objeto UserUpdateDto
-        User updatedUser = userService.updateUser("12345678900", updateUserDto);
+        User updatedUser = userService.updateUser(cpf, updateUserDto);
 
-        // Verifica se o usuário foi atualizado corretamente
-        assertNotEquals(testUser, updatedUser);
+        assertEquals(updateUserDto.getName(), updatedUser.getName());
+        assertEquals(updateUserDto.getCity(), updatedUser.getCity());
+        assertEquals(updateUserDto.getState(), updatedUser.getState());
+        assertNotNull(updatedUser.getFamily());
+        assertEquals(testFamily.getIdFamily(), updatedUser.getFamily().getIdFamily());
+
+        verify(userRepository, times(1)).findByCpf(cpf);
+        verify(familyRepository, times(1)).findById(testFamilyDto.getIdFamily());
+        verify(userRepository, times(1)).save(any(User.class));
     }
 
     @Test
-    @DisplayName("Testa falha na atualização do usuário por CPF não encontrado")
+    @DisplayName("CPF não encontrado na atualização de usuário")
     public void testUpdateUserCpfNotFoundException() {
-        String cpf = "12345678900";
+        String cpf = "99999999999"; // CPF que nao existe no bd
         UserUpdate updateUserDto = new UserUpdate();
-        updateUserDto.setFamilyDto(new FamilyDto());
+        updateUserDto.setFamilyDto(testFamilyDto);
 
-        when(userRepository.findById(cpf)).thenReturn(Optional.empty());
-
-        assertThrows(CpfNotFoundException.class, () -> userService.updateUser(cpf, updateUserDto)); // estudar isso
-    }
-
-    @Test
-    public void testUpdateUserIdFamilyNotFoundException() {
-        String cpf = "12345678900";
-        UserUpdate updateUserDto = new UserUpdate();
-        FamilyDto familyDto = new FamilyDto();
-        familyDto.setIdFamily(1L);
-        updateUserDto.setFamilyDto(familyDto);
-
-        User existingUser = new User();
-        existingUser.setCpf(cpf);
-
-        when(userRepository.findById(cpf)).thenReturn(Optional.of(existingUser));
-        when(familyRepository.findById(1L)).thenReturn(Optional.empty());
-
-        assertThrows(IdFamilyNotFoundException.class, () -> userService.updateUser(cpf, updateUserDto));
-    }
-
-    @Test
-    @DisplayName("Testa selecionar usuário por CPF com sucesso!")
-    public void selectUserSuccessByCpf() {
-        // Preparação
-        String cpf = "12345678900"; // Define o CPF de teste
-        when(userRepository.findById(cpf)).thenReturn(Optional.of(testUser)); // Configura o mock para retornar o usuário de teste quando buscar pelo CPF
-
-        // Execução
-        User selectedUser = userService.selectUserById(Long.valueOf(cpf)); // Chama o método que seleciona o usuário por CPF
-
-        // Verificação
-        assertNotNull(selectedUser); // Verifica se o usuário retornado não é nulo
-        assertEquals(testUser.getCpf(), selectedUser.getCpf()); // Verifica se os CPFs são iguais
-        assertEquals(testUser.getName(), selectedUser.getName()); // Verifica se os nomes são iguais
-        // Adicione mais verificações conforme necessário para outros atributos do usuário
-    }
-
-    @Test
-    @DisplayName("Testa seleção de usuário por CPF quando o usuário não é encontrado")
-    public void selectUserByCpfNotFound() {
-        // Preparação
-        String cpf = "99999999999"; // Define um CPF que não existe no sistema
-        when(userRepository.findByCpf(cpf)).thenReturn(Optional.empty()); // Configura o mock para retornar um Optional vazio quando buscar pelo CPF
-
-        // Execução e verificação
-        CpfNotFoundException exception = assertThrows(CpfNotFoundException.class, () ->
-                userService.selectUserById(Long.valueOf(cpf)));
-
-        // Verificação
-        assertNotNull(exception); // Verifica se a exceção foi lançada
-        assertEquals("O Cpf " + cpf + " não foi encontrado!", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Testa exclusão de usuário por ID com sucesso")
-    public void deleteUserByIdSuccess() {
-        when(userRepository.findById("12345678900")).thenReturn(Optional.of(testUser));
-
-        userService.deleteUser("12345678900");
-
-        verify(userRepository).deleteById("12345678900");
-    }
-
-
-    @Test
-    @DisplayName("Testa exclusão de usuário por ID quando o usuário não é encontrado")
-    public void deleteUserByIdNotFoundException() {
-        String cpf = "99999999999"; //
         when(userRepository.findByCpf(cpf)).thenReturn(Optional.empty());
 
+        assertThrows(CpfNotFoundException.class, () -> userService.updateUser(cpf, updateUserDto));
 
-        assertThrows(CpfNotFoundException.class, () -> userService.deleteUser(cpf)); // Verifica se o método lança a exceção correta quando o usuário não é encontrado
+
+        verify(userRepository, times(1)).findByCpf(cpf);
+        verify(familyRepository, times(0)).findById(any(Long.class));
+        verify(userRepository, times(0)).save(any(User.class));
+    }
+
+    @Test
+    @DisplayName("ID de Família não encontrado na atualização de usuário")
+    public void testUpdateUserIdFamilyNotFoundException() {
+        String cpf = testUser.getCpf();
+        UserUpdate updateUserDto = new UserUpdate();
+        updateUserDto.setFamilyDto(testFamilyDto);
+
+        when(userRepository.findByCpf(cpf)).thenReturn(Optional.of(testUser));
+        when(familyRepository.findById(testFamilyDto.getIdFamily()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(IdFamilyNotFoundException.class,
+                () -> userService.updateUser(cpf, updateUserDto));
+
+        verify(userRepository, times(1)).findByCpf(cpf);
+        verify(familyRepository, times(1)).findById(testFamilyDto.getIdFamily());
+        verify(userRepository, times(0)).save(any(User.class));
+    }
+
+    @Test
+    @DisplayName("Selecionar usuário por CPF com sucesso!")
+    public void testSelectUserByCpfNotFoundException() {
+        when(userRepository.findByCpf(String.valueOf(testUser.getCpf())))
+                .thenReturn(Optional.of(testUser));
+
+        User selectedUser = userService.selectUserById(Long.valueOf(testUser.getCpf()));
+
+        assertNotNull(selectedUser);
+        assertEquals(testUser.getCpf(), selectedUser.getCpf());
+        assertEquals(testUser.getName(), selectedUser.getName());
+
+        verify(userRepository, times(1))
+                .findByCpf(String.valueOf(testUser.getCpf()));
+    }
+
+    @Test
+    @DisplayName("Falha ao encontrar usuário pelo Cpf!")
+    public void testSelectUserByIdUserNotFound() {
+        when(userRepository.findByCpf(String.valueOf(testUser.getCpf())))
+                .thenReturn(Optional.empty());
+
+        assertThrows(CpfNotFoundException.class,
+                () -> userService.selectUserById(Long.valueOf(testUser.getCpf())));
+
+        verify(userRepository, times(1))
+                .findByCpf(String.valueOf(testUser.getCpf()));
+    }
+
+    @Test
+    @DisplayName("Deleta usuário com sucesso")
+    public void testDeleteUserSucess() throws CpfNotFoundException {
+        when(userRepository.findByCpf(testUser.getCpf()))
+                .thenReturn(Optional.of(testUser));
+
+        assertDoesNotThrow(() -> userService.deleteUser(testUser.getCpf()));
+
+        verify(userRepository, times(1))
+                .deleteById(testUser.getCpf());
+    }
+
+    @Test
+    @DisplayName("Falha ao deletar usuário!")
+    public void testDeleteUserByCpfNotFoundException(){
+        when(userRepository.findByCpf(testUser.getCpf()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(CpfNotFoundException.class,
+                () -> userService.deleteUser(testUser.getCpf()));
+
+        verify(userRepository, times(0)).deleteById(any());
     }
 }

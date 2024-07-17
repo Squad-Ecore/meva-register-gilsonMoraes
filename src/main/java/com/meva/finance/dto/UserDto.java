@@ -1,14 +1,17 @@
 package com.meva.finance.dto;
 
 import com.meva.finance.model.User;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 public class UserDto {
 
     @CPF
@@ -20,7 +23,7 @@ public class UserDto {
     @Pattern(regexp = "(?i)[MF]", message = "Insira um gênero válido!")
     private String genre;
 
-    @NotBlank
+    @NotNull
     private LocalDate birth;
 
     @NotBlank
