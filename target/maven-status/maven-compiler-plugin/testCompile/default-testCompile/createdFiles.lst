@@ -1,2 +1,8 @@
+com\meva\finance\dtoTest\UserDtoTest.class
+com\meva\finance\modelTest\UserTest.class
 com\meva\finance\apiTest\UserControllerTest.class
+com\meva\finance\dtoTest\UserUpdateTest.class
+com\meva\finance\configTest\SwaggerConfigTest.class
 com\meva\finance\serviceTest\UserServiceTest.class
+com\meva\finance\modelTest\FamilyTest.class
+com\meva\finance\dtoTest\FamilyDtoTest.class

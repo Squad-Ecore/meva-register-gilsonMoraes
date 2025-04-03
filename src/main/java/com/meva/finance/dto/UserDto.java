@@ -42,8 +42,6 @@ public class UserDto {
         user.setBirth(birth);
         user.setState(state);
         user.setCity(city);
-        //Chamar converter familyDto para setar na family que está dentro de user -- OK
-        //aprender sobre BUILDER e refatorar
         return user;
     }
 }

@@ -21,8 +21,8 @@ public class User {
     private LocalDate birth;
     private String state;
     private String city;
+
     @ManyToOne
     @JoinColumn(name = "id_family", referencedColumnName = "id_family")
     private Family family;
-
 }
