@@ -11,11 +11,9 @@
         <module name="scaffold-java (2)" />
         <module name="scaffold-java (1)" />
         <module name="scaffold-java (4)" />
+        <module name="scaffold-java (3)" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="scaffold-java (3)" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

@@ -8,6 +8,8 @@
         <option value="$PROJECT_DIR$/../meva-category-gilsonMoraes/pom.xml" />
         <option value="$PROJECT_DIR$/../meva-debt-gilsonMoraes/pom.xml" />
         <option value="$PROJECT_DIR$/../gilson-moraes-kafka/pom.xml" />
+        <option value="$PROJECT_DIR$/../meva-kafka-gilson/pom.xml" />
+        <option value="$PROJECT_DIR$/../meva-producer-bank-gilson/pom.xml" />
       </list>
     </option>
   </component>

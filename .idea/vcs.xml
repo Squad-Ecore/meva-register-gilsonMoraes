@@ -2,8 +2,10 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../gilson-moraes-kafka" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../meva-category-gilsonMoraes" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../meva-debt-gilsonMoraes" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../meva-kafka-gilson" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../meva-producer-bank-gilson" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
 </project>

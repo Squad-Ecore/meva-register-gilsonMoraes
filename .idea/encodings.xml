@@ -4,6 +4,8 @@
     <file url="file://$PROJECT_DIR$/../gilson-moraes-kafka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../meva-category-gilsonMoraes/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../meva-debt-gilsonMoraes/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../meva-kafka-gilson/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../meva-producer-bank-gilson/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
   </component>
 </project>
